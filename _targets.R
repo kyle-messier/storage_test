@@ -98,5 +98,9 @@ list(
   tar_target(
     name = mdl3_sum,
     command = summary(model3)
+  ),
+    tar_target(
+    name = model4,
+    command = lm( y ~ x + x2 + x3 + x4, data = data2)
   )
 )
