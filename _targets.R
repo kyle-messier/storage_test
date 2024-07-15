@@ -82,6 +82,6 @@ list(
   ),
   tar_target(
     name = model3,
-    command = lm( y ~ x + x^2 + x^3, data = data)
+    command = lm( y ~ x + x^2 + x^3 + x^4, data = data)
   )
 )
