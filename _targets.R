@@ -93,7 +93,7 @@ list(
   ),
   tar_target(
     name = model3,
-    command = lm( y ~ x + x2 + x3, data = data2)
+    command = lm( y ~ x + x2 + x3 , data = data2)
   ),
   tar_target(
     name = mdl3_sum,
@@ -102,5 +102,9 @@ list(
     tar_target(
     name = model4,
     command = lm( y ~ x + x2 + x3 + x4, data = data2)
+  ),
+  tar_target(
+    name = model5,
+    command = lm( y ~ x + x2 + x3 + x4 + x3 * x4, data = data2)
   )
 )
