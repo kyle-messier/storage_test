@@ -17,6 +17,9 @@ crew_default <-
 
   )
 
+tar_config_set(
+  store = "/ddn/gs1/group/set/Projects/storage_test_0715/"
+)
 
 # Set target options:
 tar_option_set(
