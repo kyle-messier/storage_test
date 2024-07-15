@@ -8,6 +8,7 @@ library(targets)
 library(crew)
 library(crew.cluster)
 library(tarchetypes)
+library(dplyr)
 # library(tarchetypes) # Load other packages as needed.
 
 crew_default <-
@@ -23,7 +24,7 @@ tar_config_set(
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble"), # Packages that your targets need for their tasks.
+  packages = c("tibble","dplyr"), # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
   repository = "local",
@@ -76,15 +77,26 @@ list(
     # format = "qs" # Efficient storage for general data objects.
   ),
   tar_target(
+    name = data2,
+    command = mutate(data,
+    x2 = x^2,
+    x3 = x^3,
+    x4 = x^4)
+  ),
+  tar_target(
     name = model,
     command = coefficients(lm(y ~ x, data = data))
   ),
   tar_target(
     name = model2,
-    command = lm( y ~ x + x^2, data = data)
+    command = lm( y ~ x + x2, data = data2)
   ),
   tar_target(
     name = model3,
-    command = lm( y ~ x + x^2 + x^3 + x^4, data = data)
+    command = lm( y ~ x + x2 + x3, data = data2)
+  ),
+  tar_target(
+    name = mdl3_sum,
+    command = summary(model3)
   )
 )
