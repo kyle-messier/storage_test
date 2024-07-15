@@ -5,13 +5,30 @@
 
 # Load packages required to define the pipeline:
 library(targets)
+library(crew)
+library(crew.cluster)
+library(tarchetypes)
 # library(tarchetypes) # Load other packages as needed.
+
+crew_default <-
+  crew::crew_controller_local(
+    name = "controller_default",
+    workers = 2L
+
+  )
+
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble") # Packages that your targets need for their tasks.
+  packages = c("tibble"), # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
   #
+  repository = "local",
+  controller = crew_controller_group(crew_default),
+  resources =  tar_resources(
+    crew = tar_resources_crew(
+      controller = "controller_default"
+    )),
   # Pipelines that take a long time to run may benefit from
   # optional distributed computing. To use this capability
   # in tar_make(), supply a {crew} controller
@@ -62,5 +79,9 @@ list(
   tar_target(
     name = model2,
     command = lm( y ~ x + x^2, data = data)
+  ),
+  tar_target(
+    name = model3,
+    command = lm( y ~ x + x^2 + x^3, data = data)
   )
 )
